@@ -12,11 +12,13 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+import { useNavigate } from "react-router";
 
-const pages = ["Products", "Pricing", "Blog"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const pages = ["Marathon", "Acitivity"];
+const settings = ["Logout"];
 
-function DashboardAppBar() {
+function DashboardAppBar({ selectedTab, setSelectedTab }) {
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -33,6 +35,9 @@ function DashboardAppBar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+  const logout = () => {
+    navigate("/login");
   };
 
   return (
@@ -88,8 +93,15 @@ function DashboardAppBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem key={page} onClick={() => setSelectedTab(page)}>
+                  <Typography
+                    sx={{
+                      color: page !== selectedTab ? "#808080" : "white",
+                    }}
+                    textAlign="center"
+                  >
+                    {page}
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -148,7 +160,7 @@ function DashboardAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} onClick={() => logout()}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
