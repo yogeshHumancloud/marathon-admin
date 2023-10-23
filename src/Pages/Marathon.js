@@ -14,7 +14,7 @@ const Marathon = () => {
     >
       <Card
         sx={{
-          height: "40vh",
+          height: "60vh",
           width: "80vw",
           display: "flex",
           flexDirection: "column",
