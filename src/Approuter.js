@@ -3,6 +3,7 @@ import { useRoutes } from "react-router";
 import Loading from "./Componetns/Loading";
 import Dashboard from "./Pages/Dashboard";
 import Redirect from "./Pages/Redirect";
+import MarathonForm from "./Pages/MarathonForm";
 
 const Login = lazy(() => import("./Pages/Login"));
 const ForgotPassWord = lazy(() => import("./Pages/ForgotPassWord"));
@@ -42,6 +43,22 @@ const AppRouter = () => {
       element: (
         <Suspense fallback={<Loading />}>
           <Dashboard />
+        </Suspense>
+      ),
+    },
+    {
+      path: "add",
+      element: (
+        <Suspense fallback={<Loading />}>
+          <MarathonForm />
+        </Suspense>
+      ),
+    },
+    {
+      path: "edit/:id",
+      element: (
+        <Suspense fallback={<Loading />}>
+          <MarathonForm isEdit />
         </Suspense>
       ),
     },

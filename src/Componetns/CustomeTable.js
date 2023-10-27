@@ -1,74 +1,82 @@
-import React, { useState } from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
+import _ from "lodash";
+import React from "react";
 
-const CustomeTable = ({ onEdit, onDelete }) => {
-  // Sample data for the table
-  const [rows, setRows] = useState([
-    { id: 1, name: "John", age: 30, city: "New York" },
-    { id: 2, name: "Jane", age: 25, city: "Los Angeles" },
-    { id: 3, name: "Bob", age: 35, city: "Chicago" },
-    { id: 4, name: "Alice", age: 28, city: "San Francisco" },
-  ]);
-
-  const handleEdit = (id) => {
-    // Implement your edit functionality here
-    console.log(`Editing row with ID: ${id}`);
-  };
-
-  const handleDelete = (id) => {
-    // Implement your delete functionality here
-    setRows(rows.filter((row) => row.id !== id));
-  };
-
+const CustomeTable = ({ header, bodyList, onEdit = null, onDelete = null }) => {
   return (
-    <TableContainer component={Paper}>
-      <Table>
+    <TableContainer>
+      <Table stickyHeader>
         <TableHead>
           <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Age</TableCell>
-            <TableCell>City</TableCell>
-            <TableCell>Actions</TableCell>
+            {header.map((cell) => {
+              return (
+                <TableCell key={cell} sx={{ fontSize: 15, fontWeight: 700 }}>
+                  {_.capitalize(cell)}
+                </TableCell>
+              );
+            })}
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.id}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.age}</TableCell>
-              <TableCell>{row.city}</TableCell>
-              <TableCell>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<EditIcon />}
-                  onClick={() => handleEdit(row.id)}
-                >
-                  Edit
-                </Button>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  startIcon={<DeleteIcon />}
-                  onClick={() => handleDelete(row.id)}
-                  sx={{ marginLeft: "4rem" }}
-                >
-                  Delete
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
+          {bodyList.map((row, index) => {
+            return (
+              <TableRow key={index}>
+                {Object.keys(row).map((key) => (
+                  <React.Fragment key={key}>
+                    {key !== "id" && (
+                      <TableCell>
+                        <Typography>{row[key]}</Typography>
+                      </TableCell>
+                    )}
+                  </React.Fragment>
+                ))}
+                {onEdit ? (
+                  <TableCell>
+                    <Button
+                      id={`edit-${index}`}
+                      onClick={() => onEdit(row.id)}
+                      variant="contained"
+                      sx={{
+                        py: "0.2rem",
+                        px: "0.4rem",
+                        m: "0.2rem",
+                        color: "white",
+                      }}
+                    >
+                      Edit
+                    </Button>
+                  </TableCell>
+                ) : null}
+                {onDelete ? (
+                  <TableCell>
+                    <Button
+                      id={`edit-${index}`}
+                      onClick={() => onDelete(row.id)}
+                      variant="contained"
+                      color="error"
+                      sx={{
+                        py: "0.4rem",
+                        px: "0.6rem",
+                        m: "0.2rem",
+                        color: "white",
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
+                ) : null}
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </TableContainer>
