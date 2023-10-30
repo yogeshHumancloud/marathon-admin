@@ -8,14 +8,15 @@ import DeleteConfirmation from "../Componetns/DeleteConfirmation";
 const Marathon = () => {
   const navigate = useNavigate();
   const [deletePopup, setDeletePopup] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const header = ["name", "email", "mobile", "age", "edit", "delete"];
 
-  const onEdit = (id) => {
-    navigate(`/edit/${id}`);
+  const onEdit = (row) => {
+    navigate(`/edit/${row.id}`);
   };
 
-  const onDelete = (id) => {
-    setDeletePopup(id);
+  const onDelete = (row) => {
+    setDeletePopup(row.id);
   };
   return (
     <Box

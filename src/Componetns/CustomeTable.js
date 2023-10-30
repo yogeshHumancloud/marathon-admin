@@ -11,7 +11,13 @@ import {
 import _ from "lodash";
 import React from "react";
 
-const CustomeTable = ({ header, bodyList, onEdit = null, onDelete = null }) => {
+const CustomeTable = ({
+  header,
+  bodyList,
+  onEdit = null,
+  onDelete = null,
+  ignoreList = [],
+}) => {
   return (
     <TableContainer>
       <Table stickyHeader>
@@ -32,7 +38,7 @@ const CustomeTable = ({ header, bodyList, onEdit = null, onDelete = null }) => {
               <TableRow key={index}>
                 {Object.keys(row).map((key) => (
                   <React.Fragment key={key}>
-                    {key !== "id" && (
+                    {key !== "id" && !ignoreList.includes(key) && (
                       <TableCell>
                         <Typography>{row[key]}</Typography>
                       </TableCell>
@@ -43,14 +49,8 @@ const CustomeTable = ({ header, bodyList, onEdit = null, onDelete = null }) => {
                   <TableCell>
                     <Button
                       id={`edit-${index}`}
-                      onClick={() => onEdit(row.id)}
+                      onClick={() => onEdit(row)}
                       variant="contained"
-                      sx={{
-                        py: "0.2rem",
-                        px: "0.4rem",
-                        m: "0.2rem",
-                        color: "white",
-                      }}
                     >
                       Edit
                     </Button>
@@ -60,7 +60,7 @@ const CustomeTable = ({ header, bodyList, onEdit = null, onDelete = null }) => {
                   <TableCell>
                     <Button
                       id={`edit-${index}`}
-                      onClick={() => onDelete(row.id)}
+                      onClick={() => onDelete(row)}
                       variant="contained"
                       color="error"
                       sx={{
